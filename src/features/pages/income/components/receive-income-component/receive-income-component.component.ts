@@ -1,16 +1,16 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ExpensesService } from '../../../../../common/services/expenses.service';
 import { BaseComponent } from '../../../../../common/directives/base-component';
 import { takeUntil } from 'rxjs';
+import { IncomeService } from '../../../../../common/services/income.service';
 
 @Component({
-  selector: 'app-pay-expense-modal',
-  templateUrl: './pay-expense-modal.component.html',
-  styleUrl: './pay-expense-modal.component.scss',
+  selector: 'app-receive-income-component',
+  templateUrl: './receive-income-component.component.html',
+  styleUrl: './receive-income-component.component.scss',
 })
-export class PayExpenseModalComponent extends BaseComponent {
+export class ReceiveIncomeComponentComponent extends BaseComponent {
   @Input() name!: string;
   @Input() id!: number;
 
@@ -19,21 +19,20 @@ export class PayExpenseModalComponent extends BaseComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private expenseSvc: ExpensesService
+    private incSvc: IncomeService
   ) {
     super();
 
     this.form = this.fb.group({
-      dateSettled: [[null, Validators.required]],
+      dateReceived: [[null, Validators.required]],
       status: ['PAID'],
     });
   }
 
- 
   onPayment() {
     if (this.form.valid) {
-      this.expenseSvc
-        .markExpenseAsPaid(this.id, this.form.value)
+      this.incSvc
+        .receiveIncome(this.id, this.form.value)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe({
           next: (resp) => {

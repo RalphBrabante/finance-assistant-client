@@ -1,7 +1,9 @@
 <div class="container mt-4">
   <h2 class="mb-3">Incomes</h2>
   <!-- Responsive wrapper -->
-  <div class="mt-2 mb-2 ps-0"></div>
+  <div class="mt-2 mb-2 ps-0">
+    <app-create-income-modal (onSubmitSuccess)="fetchData()" />
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered align-middle">
       <thead class="table-dark">
@@ -51,12 +53,22 @@
               >{{ income.status }}
             </span>
           </td>
-          <td>{{ income.dateSettled | date }}</td>
+          <td>{{ income.dateReceived | date }}</td>
           <td>
             @if(income.id){ @if(income.status !== 'PAID'){
-            <button class="btn btn-sm btn-success me-2">Pay</button>
+            <button
+              class="btn btn-sm btn-success me-2"
+              (click)="markAsReceived(income.id)"
+            >
+              Receive
+            </button>
             }
-            <button class="btn btn-sm btn-danger">Delete</button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="confirmDelete(income.id)"
+            >
+              Delete
+            </button>
             }
           </td>
         </tr>

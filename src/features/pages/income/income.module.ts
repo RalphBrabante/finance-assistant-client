@@ -1,14 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
-import { IncomeRoutingModule } from './income-routing.module';
 import { IncomeComponent } from './income.component';
 import { IncomesTableComponent } from './components/incomes-table/incomes-table.component';
-import { DashboardHeaderComponent } from '../../../common/components/dashboard-header/dashboard-header.component';
-import { AppModule } from "../../../app/app.module";
+
+import { IncomeRoutingModule } from './income-routing.module';
+import { DashboardHeaderModule } from '../../../common/components/dashboard-header/dashboard-header.module';
+import { ConfirmModalComponent } from '../../../common/components/confirm-modal/confirm-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ReceiveIncomeComponentComponent } from './components/receive-income-component/receive-income-component.component';
+import { IncomeFormComponent } from './components/income-form/income-form.component';
+import { CreateIncomeModalComponent } from './components/create-income-modal/create-income-modal.component';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalModule } from '../../../common/components/confirm-modal/confirm-modal.module';
 
 @NgModule({
-  declarations: [IncomeComponent, IncomesTableComponent],
-  imports: [CommonModule, IncomeRoutingModule, CurrencyPipe, DatePipe, AppModule],
+  declarations: [
+    IncomeComponent,
+    IncomesTableComponent,
+    ReceiveIncomeComponentComponent,
+    IncomeFormComponent,
+    CreateIncomeModalComponent,
+  ],
+  imports: [
+    CommonModule,
+    CurrencyPipe,
+    DatePipe,
+    DashboardHeaderModule,
+    ReactiveFormsModule,
+    IncomeRoutingModule,
+    NgbAlert,
+    ConfirmModalModule
+  ],
 })
 export class IncomeModule {}

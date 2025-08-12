@@ -4,6 +4,10 @@ export interface Income {
   purpose: string;
   cost: number;
   userId?: number;
-  status: string;
-  dateReceived: string;
+  status?: string;
+  dateReceived?: string;
+}
+
+export interface IncomePayload {
+  income: Income;
 }

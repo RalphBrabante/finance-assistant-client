@@ -9,26 +9,31 @@ import {
   WritableSignal,
 } from '@angular/core';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ExpensesService } from '../../../../../common/services/expenses.service';
-import { ExpenseFormComponent } from '../expense-form/expense-form.component';
+import { FormGroup } from '@angular/forms';
 import { BaseComponent } from '../../../../../common/directives/base-component';
 import { takeUntil, tap } from 'rxjs';
+import { IncomeFormComponent } from '../income-form/income-form.component';
+import { IncomeService } from '../../../../../common/services/income.service';
+
 @Component({
-  selector: 'app-create-expense-modal',
-  templateUrl: './create-expense-modal.component.html',
-  styleUrl: './create-expense-modal.component.scss',
+  selector: 'app-create-income-modal',
+  templateUrl: './create-income-modal.component.html',
+  styleUrl: './create-income-modal.component.scss',
 })
-export class CreateExpenseModalComponent extends BaseComponent {
+export class CreateIncomeModalComponent extends BaseComponent {
   private modalService = inject(NgbModal);
   closeResult: WritableSignal<string> = signal('');
-  formData = viewChild<ExpenseFormComponent>('formData');
+  formData = viewChild<IncomeFormComponent>('formData');
   errorMessage = signal<string>('');
   successMessage = signal<string>('');
   isLoading = signal<boolean | undefined>(false);
   onSubmitSuccess = output<boolean>();
 
-  constructor(private expenseSvc: ExpensesService) {
+  constructor(private incSvc: IncomeService) {
     super();
   }
 
@@ -42,9 +47,9 @@ export class CreateExpenseModalComponent extends BaseComponent {
     this.formData()?.form.markAllAsTouched();
 
     if (this.formData()?.form.valid) {
-      this.expenseSvc
-        .createExpense({
-          expense: {
+      this.incSvc
+        .createIncome({
+          income: {
             name: this.formData()?.name.value,
             purpose: this.formData()?.purpose.value,
             cost: this.formData()?.cost.value,

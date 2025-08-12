@@ -12,11 +12,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseFormComponent } from './components/expense-form/expense-form.component';
-import { ConfirmModalComponent } from '../../../common/components/confirm-modal/confirm-modal.component';
 import { PayExpenseModalComponent } from './components/pay-expense-modal/pay-expense-modal.component';
-
-import { AppModule } from '../../../app/app.module';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { DashboardHeaderModule } from '../../../common/components/dashboard-header/dashboard-header.module';
+import { ConfirmModalModule } from '../../../common/components/confirm-modal/confirm-modal.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +22,6 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
     ExpensesTableComponent,
     CreateExpenseModalComponent,
     ExpenseFormComponent,
-    ConfirmModalComponent,
     PayExpenseModalComponent,
   ],
   imports: [
@@ -35,7 +32,8 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
     NgbDatepickerModule,
     ReactiveFormsModule,
     NgbAlert,
-    AppModule,
+    DashboardHeaderModule,
+    ConfirmModalModule,
   ],
   providers: [NgbActiveModal],
 })

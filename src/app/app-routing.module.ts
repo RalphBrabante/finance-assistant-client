@@ -10,7 +10,10 @@ import { ExpensesModule } from '../features/pages/expenses/expenses.module';
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadChildren: () =>
+      import('../features/pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
   },
   {
     path: 'expenses',
@@ -20,7 +23,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'income',
+    path: 'incomes',
     loadChildren: () =>
       import('../features/pages/income/income.module').then(
         (m) => m.IncomeModule

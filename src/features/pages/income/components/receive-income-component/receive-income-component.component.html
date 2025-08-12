@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Receive Income</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div id="mt-3">
+      <input type="date" formControlName="dateReceived" class="form-control" />
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="onPayment()">
+    Submit
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="activeModal.close('Close click')"
+  >
+    Cancel
+  </button>
+</div>
