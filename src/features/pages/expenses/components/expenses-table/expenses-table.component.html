@@ -1,0 +1,76 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Expenses</h2>
+  <!-- Responsive wrapper -->
+  <div class="mt-2 mb-2 ps-0">
+    <app-create-expense-modal (onSubmitSuccess)="fetchData()" />
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Purpose</th>
+          <th scope="col">Cost</th>
+          <th scope="col">Status</th>
+          <th scope="col">Date Settled</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+        } @if(!expenses().length && !isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+
+        }@else{ @for (expense of expenses(); track $index) {
+        <tr>
+          <th scope="row">{{ expense.id }}</th>
+          <td>{{ expense.name }}</td>
+          <td>{{ expense.purpose }}</td>
+          <td class="text-right">{{ expense.cost | currency : "PHP" }}</td>
+          <td class="text-center">
+            <span
+              class="badge rounded-pill"
+              [class.text-bg-warning]="expense.status == 'PEND'"
+              [class.text-bg-success]="expense.status == 'PAID'"
+              >{{ expense.status }}
+            </span>
+          </td>
+          <td>{{ expense.dateSettled | date }}</td>
+          <td>
+            @if(expense.id){ @if(expense.status !== 'PAID'){
+            <button class="btn btn-sm btn-success me-2" (click)="markAsPaid(expense.id)">
+              Pay
+            </button>
+            }
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="confirmDelete(expense.id)"
+            >
+              Delete
+            </button>
+            }
+          </td>
+        </tr>
+        }}
+      </tbody>
+    </table>
+  </div>
+</div>

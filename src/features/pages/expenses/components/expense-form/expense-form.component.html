@@ -1,0 +1,44 @@
+<form [formGroup]="form">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      placeholder="Name of expense"
+      formControlName="name"
+    />
+    @if(name.invalid && (name.dirty || name.touched)){
+    <small class="error-text">Name is required.</small>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="purpose" class="form-label">Purpose</label>
+    <textarea
+      class="form-control"
+      id="purpose"
+      rows="3"
+      placeholder="Purpose..."
+      formControlName="purpose"
+    ></textarea>
+    @if(purpose.invalid && (purpose.dirty || purpose.touched)){
+    <small class="error-text">Purpose is required.</small>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="cost" class="form-label">Cost</label>
+    <input
+      type="text"
+      class="form-control"
+      id="cost"
+      placeholder="0.00"
+      formControlName="cost"
+      (input)="formatToTwoDecimals($event)"
+    />
+    @if(cost.invalid && (cost.dirty || cost.touched)){
+    <small class="error-text">Cost is required.</small>
+    }
+  </div>
+</form>

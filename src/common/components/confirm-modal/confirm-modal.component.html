@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title || "Confirm" }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss()"
+  ></button>
+</div>
+<div class="modal-body">
+  <p>{{ message || "Are you sure?" }}</p>
+
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.close(false)"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="onConfirm()"
+  >
+    Confirm
+  </button>
+</div>
