@@ -31,7 +31,10 @@ const routes: Routes = [
   },
   {
     path: 'reports',
-    component: MonthlyReportsComponent,
+    loadChildren: () =>
+      import('../features/pages/reports/reports.module').then(
+        (m) => m.ReportsModule
+      ),
   },
   {
     path: '**',
