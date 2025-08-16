@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from '../features/pages/dashboard/dashboard.component';
-import { ExpensesComponent } from '../features/pages/expenses/expenses.component';
-import { IncomeComponent } from '../features/pages/income/income.component';
-import { MonthlyReportsComponent } from '../features/pages/monthly-reports/monthly-reports.component';
 import { NotFoundComponent } from '../features/pages/not-found/not-found.component';
-import { ExpensesModule } from '../features/pages/expenses/expenses.module';
+import { loginPageGuard } from '../common/guards/login-page.guard';
+import { appDashboardGuard } from '../common/guards/app-dashboard.guard';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [loginPageGuard],
     loadChildren: () =>
-      import('../features/pages/login/login.module').then(
-        (m) => m.LoginModule
-      ),
+      import('../features/pages/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'dashboard',
+    title: ' Dashboard',
+    canActivate: [appDashboardGuard],
     loadChildren: () =>
       import('../features/pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
@@ -24,6 +22,8 @@ const routes: Routes = [
   },
   {
     path: 'expenses',
+    title: 'Expenses',
+    canActivate: [appDashboardGuard],
     loadChildren: () =>
       import('../features/pages/expenses/expenses.module').then(
         (m) => m.ExpensesModule
@@ -31,6 +31,8 @@ const routes: Routes = [
   },
   {
     path: 'incomes',
+    title: 'Incomes',
+    canActivate: [appDashboardGuard],
     loadChildren: () =>
       import('../features/pages/income/income.module').then(
         (m) => m.IncomeModule
@@ -38,6 +40,8 @@ const routes: Routes = [
   },
   {
     path: 'reports',
+    title: 'Reports',
+    canActivate: [appDashboardGuard],
     loadChildren: () =>
       import('../features/pages/reports/reports.module').then(
         (m) => m.ReportsModule

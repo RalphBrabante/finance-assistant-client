@@ -18,11 +18,9 @@ export class ReportsService {
    * @param month - Month in number.
    */
   generateMonthlyReport(month: number): Observable<ApiResponse> {
-
-      return this.http.post<ApiResponse>(
-        baseUrl + '/monthlyReports?month=' + month,
-        null
-      );
-   
+    return this.http.post<ApiResponse>(
+      baseUrl + '/monthlyReports?month=' + month,
+      null
+    );
   }
 }
