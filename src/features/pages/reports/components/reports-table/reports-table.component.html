@@ -1,0 +1,64 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Monthly Reports</h2>
+  <!-- Responsive wrapper -->
+  <div class="mt-2 mb-2 ps-0">
+    <button
+      class="btn btn-primary"
+      (click)="onGenerate()"
+      [disabled]="isGenerating() === true"
+    >
+      {{ isGenerating() ? "Generating...." : "Generate" }}
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Total Expense</th>
+          <th scope="col">Total Income</th>
+          <th scope="col">Total Savings</th>
+          <th scope="col">From Date</th>
+          <th scope="col">To Date</th>
+          <th scope="col">Date Generated</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+        } @if(!reports().length && !isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+
+        }@else{ @for (report of reports(); track $index) {
+        <tr>
+          <th scope="row">{{ report.id }}</th>
+          <td>{{ report.totalExpense | currency : "PHP" }}</td>
+          <td>{{ report.totalIncome | currency : "PHP" }}</td>
+          <td class="text-right">
+            {{ report.totalSavings | currency : "PHP" }}
+          </td>
+          <td>{{ report.fromDate | date : "medium" : "UTC" }}</td>
+          <td>{{ report.toDate | date : "medium" : "UTC" }}</td>
+          <td>{{ report.createdAt | date : "medium" : "UTC" }}</td>
+        </tr>
+        }}
+      </tbody>
+    </table>
+  </div>
+</div>

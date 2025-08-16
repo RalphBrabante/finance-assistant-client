@@ -9,6 +9,13 @@ import { ExpensesModule } from '../features/pages/expenses/expenses.module';
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import('../features/pages/login/login.module').then(
+        (m) => m.LoginModule
+      ),
+  },
+  {
     path: 'dashboard',
     loadChildren: () =>
       import('../features/pages/dashboard/dashboard.module').then(
