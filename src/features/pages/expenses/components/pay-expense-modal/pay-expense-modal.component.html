@@ -12,14 +12,22 @@
     <div id="mt-3">
       <input type="date" formControlName="dateSettled" class="form-control" />
     </div>
+    <div class="mb-3">
+      <label for="exampleSelect" class="form-label">Choose an option</label>
+      <select class="form-select" id="exampleSelect" name="option">
+        <option value="" selected disabled>- Choose One -</option>
+        @for (bankOrWallet of banksOrWallets(); track $index) {
+        <option [value]="bankOrWallet.id">
+          {{ bankOrWallet.name }} | {{ bankOrWallet.accountNo }} |
+          {{ bankOrWallet.balance | currency : "PHP" }}
+        </option>
+        }
+      </select>
+    </div>
   </form>
 </div>
 <div class="modal-footer">
-     <button
-    type="button"
-    class="btn btn-primary"
-    (click)="onPayment()"
-  >
+  <button type="button" class="btn btn-primary" (click)="onPayment()">
     Pay
   </button>
   <button

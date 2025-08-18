@@ -7,6 +7,13 @@ import {
   AuthApiResponse,
   VerifyTokenResponse,
 } from '../../features/pages/login/models/auth-api-response';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  exp: number; // expiration timestamp in seconds
+}
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +44,30 @@ export class AuthService {
 
   clearVerification() {
     this.verified$ = undefined;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('AT');
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      const expiry = decoded.exp * 1000; // convert to ms
+      return Date.now() > expiry;
+    } catch (e) {
+      return true; // if invalid, treat as expired
+    }
+  }
+
+  isLoggedIn(): boolean {
+    return !this.isTokenExpired();
+  }
+
+  logout() {
+    localStorage.removeItem('AT');
   }
 }
