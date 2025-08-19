@@ -48,6 +48,24 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'banks-wallets',
+    title: 'Banks or Wallets',
+    canActivate: [appDashboardGuard],
+    loadChildren: () =>
+      import('../features/pages/bank-and-wallets/bank-and-wallets.module').then(
+        (m) => m.BankAndWalletsModule
+      ),
+  },
+  {
+    path: 'transactions',
+    title: 'Transactions ',
+    canActivate: [appDashboardGuard],
+    loadChildren: () =>
+      import('../features/pages/transactions/transactions.module').then(
+        (m) => m.TransactionsModule
+      ),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

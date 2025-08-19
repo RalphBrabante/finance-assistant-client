@@ -1,0 +1,81 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Banks or Wallets</h2>
+  <!-- Responsive wrapper -->
+  <div class="mt-2 mb-2 ps-0"></div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Account #</th>
+          <th scope="col">Balance</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+        } @if(!banksAndWallets().length && !isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+
+        }@else{ @for (banksAndWallet of banksAndWallets(); track $index) {
+        <tr>
+          <th scope="row">{{ banksAndWallet.id }}</th>
+          <td>{{ banksAndWallet.name }}</td>
+          <td>
+            <span
+              class="badge rounded-pill text-center"
+              [ngClass]="{
+                'text-bg-primary': banksAndWallet.type === 'OL_WLT',
+                'text-bg-success': banksAndWallet.type === 'BNK',
+                'text-bg-info': banksAndWallet.type === 'DIG_BNK',
+                'text-bg-warning': banksAndWallet.type === 'DIG_BNK_SVNGS'
+              }"
+              >{{ banksAndWallet.type === "OL_WLT" ? "ONLINE WALLET" : null
+              }}{{
+                banksAndWallet.type === "BNK" ? "BANK" : null
+              }}{{
+                banksAndWallet.type === "DIG_BNK" ? "DIGITAL BANK" : null
+              }}{{
+                banksAndWallet.type === "DIG_BNK_SVNGS" ? "DIGITAL BANK SAVINGS" : null
+              }}</span
+            >
+          </td>
+          <td class="text-right">{{ banksAndWallet.accountNo }}</td>
+          <td class="text-right">
+            {{ banksAndWallet.balance | currency : "PHP" }}
+          </td>
+
+          <td>
+            <button
+              class="btn btn-sm btn-success me-1"
+              (click)="deposit(banksAndWallet.id)"
+            >
+              Deposit
+            </button>
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+        }}
+      </tbody>
+    </table>
+  </div>
+</div>

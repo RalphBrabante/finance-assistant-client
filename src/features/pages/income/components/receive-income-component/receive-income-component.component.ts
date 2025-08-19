@@ -1,9 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from '../../../../../common/directives/base-component';
 import { takeUntil } from 'rxjs';
 import { IncomeService } from '../../../../../common/services/income.service';
+import { UtilsService } from '../../../../../common/services/utils.service';
 
 @Component({
   selector: 'app-receive-income-component',
@@ -19,16 +25,25 @@ export class ReceiveIncomeComponentComponent extends BaseComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private incSvc: IncomeService
+    private incSvc: IncomeService,
+    private utlSvc: UtilsService
   ) {
     super();
 
     this.form = this.fb.group({
-      dateReceived: [[null, Validators.required]],
+      dateReceived: [utlSvc.getTodayDate(), Validators.required],
+      bankOrWalletId: [null, Validators.required],
       status: ['PAID'],
     });
   }
 
+  get bankOrWalletId() {
+    return this.form.get('bankOrWalletId') as FormControl;
+  }
+
+  setBankId(id: string) {
+    this.bankOrWalletId.setValue(id);
+  }
   onPayment() {
     if (this.form.valid) {
       this.incSvc

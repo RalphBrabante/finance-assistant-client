@@ -54,7 +54,7 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
 
     modalRef.result.then(
       (result) => {
-        console.log('Modal closed with:', result);
+      
         if (result === true) {
           this.expenseSvc
             .deleteExpense(id)

@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <div class="mb-3">
+    <label for="amount" class="form-label">Amount</label>
+    <input
+      type="text"
+      class="form-control"
+      id="amount"
+      placeholder="0.00"
+      formControlName="amount"
+      (input)="formatToTwoDecimals($event)"
+    />
+    @if(amount.invalid && (amount.dirty || amount.touched)){
+    <small class="error-text">Amount is required.</small>
+    }
+  </div>
+</form>

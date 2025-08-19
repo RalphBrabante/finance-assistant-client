@@ -62,7 +62,7 @@ export class CreateExpenseModalComponent extends BaseComponent {
         )
         .subscribe({
           next: (resp) => {
-            console.log(resp.data);
+          
             this.isLoading.set(false);
             this.successMessage.set('Created');
             this.onSubmitSuccess.emit(true);

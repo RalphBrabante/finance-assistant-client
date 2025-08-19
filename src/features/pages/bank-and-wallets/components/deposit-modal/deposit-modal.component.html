@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Receive Income</h4>
+  <h4 class="modal-title">Deposit</h4>
   <button
     type="button"
     class="btn-close"
@@ -8,17 +8,11 @@
   ></button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="form">
-    <div id="mt-3">
-      <input type="date" formControlName="dateReceived" class="form-control" />
-    </div>
-    <app-bank-and-wallet-lookup-dropdown (bankId)="setBankId($event)"/>
-  </form>
+  <app-deposit-form #formData/>
 </div>
-
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="onPayment()">
-    Submit
+    Deposit
   </button>
   <button
     type="button"

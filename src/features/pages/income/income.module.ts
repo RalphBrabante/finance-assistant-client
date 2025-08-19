@@ -13,6 +13,7 @@ import { IncomeFormComponent } from './components/income-form/income-form.compon
 import { CreateIncomeModalComponent } from './components/create-income-modal/create-income-modal.component';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalModule } from '../../../common/components/confirm-modal/confirm-modal.module';
+import { BankAndWalletLookupDropdownModule } from '../../../common/components/bank-and-wallet-lookup-dropdown/bank-and-wallet-lookup-dropdown.module';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import { ConfirmModalModule } from '../../../common/components/confirm-modal/con
     DatePipe,
     DashboardHeaderModule,
     ReactiveFormsModule,
-    IncomeRoutingModule,
+    BankAndWalletLookupDropdownModule,
     NgbAlert,
-    ConfirmModalModule
+    ConfirmModalModule,
+    IncomeRoutingModule,
   ],
 })
 export class IncomeModule {}

@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Expenses</h2>
+  <!-- Responsive wrapper -->
+  <div class="mt-2 mb-2 ps-0">
+    <!-- <app-create-expense-modal (onSubmitSuccess)="fetchData()" /> -->
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Transaction Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Ending Balance</th>
+          <th scope="col">Bank or Wallet Name</th>
+          <th scope="col">Account #</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+        } @if(!transactions().length && !isLoading()){
+        <tr>
+          <td
+            colspan="7"
+            class="text-center"
+            style="background-color: rgba(255, 234, 0, 0.303)"
+          >
+            No data found
+          </td>
+        </tr>
+
+        }@else{ @for (transaction of transactions(); track $index) {
+        <tr>
+          <th scope="row">{{ transaction.id }}</th>
+          <th scope="row">{{ transaction.createdAt | date : "short" }}</th>
+          <td>{{ transaction.name }}</td>
+          <td>
+
+            <span class="badge rounded-pill text-center" [ngClass]="{
+              'text-bg-success': transaction.type === 'INW',
+              'text-bg-danger': transaction.type === 'OUTW'
+            }" >{{ transaction.type === "INW" ? "INWARD" : "OUTWARD" }}</span>
+
+          </td>
+          <td
+            [ngClass]="{
+              inw: transaction.type === 'INW',
+              outw: transaction.type === 'OUTW'
+            }"
+          >
+            {{ transaction.type === "INW" ? "+" : "-" }}
+            {{ transaction.amount | currency : "PHP" }}
+          </td>
+          <td>{{transaction.endingBalance | currency : "PHP"}}</td>
+          <td class="text-right">{{ transaction.originBankOrWallet.name }}</td>
+          <td>{{ transaction.originBankOrWallet.accountNo }}</td>
+        </tr>
+        }}
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,55 +1,48 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, input, Input, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExpensesService } from '../../../../../common/services/expenses.service';
 import { BaseComponent } from '../../../../../common/directives/base-component';
 import { finalize, take, takeUntil } from 'rxjs';
 import { BankAndWalletService } from '../../../../../common/services/bank-and-wallet.service';
-import { BankAndWallets } from '../../models/bank-and-wallets';
+import { BankAndWallets } from '../../../expenses/models/bank-and-wallets';
+import { DepositFormComponent } from '../deposit-form/deposit-form.component';
+
 
 @Component({
-  selector: 'app-pay-expense-modal',
-  templateUrl: './pay-expense-modal.component.html',
-  styleUrl: './pay-expense-modal.component.scss',
+  selector: 'app-deposit-modal',
+  templateUrl: './deposit-modal.component.html',
+  styleUrl: './deposit-modal.component.scss',
 })
-export class PayExpenseModalComponent extends BaseComponent implements OnInit {
+export class DepositModalComponent extends BaseComponent {
   @Input() name!: string;
-  @Input() id!: number;
+  @Input() id!: string;
   isFetchingBanks = signal<boolean>(false);
   banksOrWallets = signal<BankAndWallets[]>([]);
+  formData = viewChild<DepositFormComponent>('formData');
 
   form!: FormGroup;
 
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private expenseSvc: ExpensesService,
-    private bAWSvc: BankAndWalletService
+    private bnwSvc: BankAndWalletService,
+  
+
   ) {
     super();
 
     this.form = this.fb.group({
-      dateSettled: [this.getTodayDate(), Validators.required],
-      bankAndWalletId: [null, Validators.required],
+      dateSettled: [[null, Validators.required]],
       status: ['PAID'],
     });
-  }
-
-  getTodayDate(): string {
-    const today = new Date();
-    return today.toISOString().split('T')[0]; // format as yyyy-MM-dd for input[type="date"]
   }
 
   ngOnInit(): void {
     this.isFetchingBanks.set(true);
     this.form.disable();
 
-    this.bAWSvc
+    this.bnwSvc
       .getAllBankAndWallets()
       .pipe(
         finalize(() => {
@@ -68,18 +61,10 @@ export class PayExpenseModalComponent extends BaseComponent implements OnInit {
       });
   }
 
-  get bankAndWalletId() {
-    return this.form.get('bankAndWalletId') as FormControl;
-  }
-
-  setBankAndWalletId(id: string) {
-    this.bankAndWalletId.setValue(id);
-  }
-
   onPayment() {
     if (this.form.valid) {
-      this.expenseSvc
-        .markExpenseAsPaid(this.id, this.form.value)
+      this.bnwSvc
+        .deposit(this.id, this.formData()?.amount.value)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe({
           next: (resp) => {

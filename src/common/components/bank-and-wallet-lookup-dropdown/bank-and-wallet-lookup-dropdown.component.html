@@ -1,0 +1,12 @@
+<div class="mb-3">
+  <label for="exampleSelect" class="form-label">Choose an option</label>
+  <select class="form-select" id="exampleSelect" name="option" (change)="onEmitBankId(select.value)" #select>
+    <option value="" selected disabled>- Choose One -</option>
+    @for (bankOrWallet of banksOrWallets(); track $index) {
+    <option [value]="bankOrWallet.id">
+      {{ bankOrWallet.name }} | {{ bankOrWallet.accountNo }} |
+      {{ bankOrWallet.balance | currency : "PHP" }}
+    </option>
+    }
+  </select>
+</div>

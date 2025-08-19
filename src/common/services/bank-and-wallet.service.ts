@@ -13,4 +13,17 @@ export class BankAndWalletService {
   getAllBankAndWallets(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(baseUrl + '/bankAndWallets');
   }
+
+  /**
+   *
+   * @param id - id of the bank or wallet
+   * @param amount - amount to be deposited
+   * @returns - observable
+   */
+
+  deposit(id: string, amount: string): Observable<ApiResponse> {
+    return this.http.patch<ApiResponse>(baseUrl + `/bankAndWallets/${id}/deposit`, {
+      amount,
+    });
+  }
 }

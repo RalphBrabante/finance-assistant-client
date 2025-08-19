@@ -15,6 +15,7 @@ import { ExpenseFormComponent } from './components/expense-form/expense-form.com
 import { PayExpenseModalComponent } from './components/pay-expense-modal/pay-expense-modal.component';
 import { DashboardHeaderModule } from '../../../common/components/dashboard-header/dashboard-header.module';
 import { ConfirmModalModule } from '../../../common/components/confirm-modal/confirm-modal.module';
+import { BankAndWalletLookupDropdownModule } from '../../../common/components/bank-and-wallet-lookup-dropdown/bank-and-wallet-lookup-dropdown.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ConfirmModalModule } from '../../../common/components/confirm-modal/con
     NgbAlert,
     DashboardHeaderModule,
     ConfirmModalModule,
+    BankAndWalletLookupDropdownModule
   ],
   providers: [NgbActiveModal],
 })
