@@ -1,0 +1,12 @@
+@if(chartData() && chartData().length){
+<div style="display: block">
+  <canvas
+    baseChart
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [legend]="lineChartLegend"
+    chartType="line"
+  >
+  </canvas>
+</div>
+}

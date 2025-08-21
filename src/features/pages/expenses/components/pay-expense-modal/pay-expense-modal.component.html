@@ -16,7 +16,7 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="onPayment()">
+  <button type="button" class="btn btn-primary" (click)="onPayment()" [disabled]="disablePayBtn()">
     Pay
   </button>
   <button

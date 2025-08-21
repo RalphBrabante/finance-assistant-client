@@ -15,6 +15,12 @@ export class IncomeService {
     return this.http.get<ApiResponse>(baseUrl + '/incomes');
   }
 
+  getAllIncomesForYear(year: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(
+      baseUrl + '/incomes/getIncomeForYear?year=' + year
+    );
+  }
+
   createIncome(income: IncomePayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(baseUrl + '/incomes', income);
   }

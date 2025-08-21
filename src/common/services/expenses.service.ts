@@ -18,6 +18,12 @@ export class ExpensesService {
     return this.http.get<ApiResponse>(baseUrl + '/expenses');
   }
 
+  getAllExpensesForYear(year: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(
+      baseUrl + '/expenses/getExpenseForYear?year=' + year
+    );
+  }
+
   createExpense(expense: ExpensesPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(baseUrl + '/expenses', expense);
   }

@@ -40,9 +40,9 @@
         <tr>
           <th scope="row">{{ banksAndWallet.id }}</th>
           <td>{{ banksAndWallet.name }}</td>
-          <td>
+          <td class="text-center">
             <span
-              class="badge rounded-pill text-center"
+              class="badge rounded-pill"
               [ngClass]="{
                 'text-bg-primary': banksAndWallet.type === 'OL_WLT',
                 'text-bg-success': banksAndWallet.type === 'BNK',
@@ -60,11 +60,11 @@
             >
           </td>
           <td class="text-right">{{ banksAndWallet.accountNo }}</td>
-          <td class="text-right">
+          <td class="text-end">
             {{ banksAndWallet.balance | currency : "PHP" }}
           </td>
 
-          <td>
+          <td class="text-center">
             <button
               class="btn btn-sm btn-success me-1"
               (click)="deposit(banksAndWallet.id)"

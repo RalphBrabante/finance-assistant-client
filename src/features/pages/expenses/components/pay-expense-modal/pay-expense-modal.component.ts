@@ -22,6 +22,7 @@ export class PayExpenseModalComponent extends BaseComponent implements OnInit {
   @Input() id!: number;
   isFetchingBanks = signal<boolean>(false);
   banksOrWallets = signal<BankAndWallets[]>([]);
+  disablePayBtn = signal<boolean>(false);
 
   form!: FormGroup;
 
@@ -78,9 +79,15 @@ export class PayExpenseModalComponent extends BaseComponent implements OnInit {
 
   onPayment() {
     if (this.form.valid) {
+      this.disablePayBtn.set(true);
       this.expenseSvc
         .markExpenseAsPaid(this.id, this.form.value)
-        .pipe(takeUntil(this.unsubscribe))
+        .pipe(
+          finalize(() => {
+            this.disablePayBtn.set(false);
+          }),
+          takeUntil(this.unsubscribe)
+        )
         .subscribe({
           next: (resp) => {
             this.activeModal.close(true);

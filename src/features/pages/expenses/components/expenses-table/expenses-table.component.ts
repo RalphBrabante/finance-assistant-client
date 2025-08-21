@@ -16,6 +16,8 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
   expenses = signal<Expenses[]>([]);
   isLoading = signal<boolean>(false);
   showModal: boolean = false;
+  page:number= 1;
+  pageSize = 5;
 
   constructor(
     private expenseSvc: ExpensesService,
@@ -54,7 +56,6 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
 
     modalRef.result.then(
       (result) => {
-      
         if (result === true) {
           this.expenseSvc
             .deleteExpense(id)
@@ -95,5 +96,20 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
           this.isLoading.set(false);
         },
       });
+  }
+
+  get paginatedItems() {
+    const start = (this.page - 1) * this.pageSize;
+    return this.expenses().slice(start, start + this.pageSize);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.expenses().length / this.pageSize);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.page = page;
+    }
   }
 }

@@ -40,12 +40,16 @@
         </tr>
 
         }@else{ @for (expense of expenses(); track $index) {
-        <tr>
-          <th scope="row">{{ expense.id }}</th>
-          <td>{{ expense.name }}</td>
-          <td>{{ expense.purpose }}</td>
-          <td class="text-right">{{ expense.cost | currency : "PHP" }}</td>
-          <td class="text-center">
+        <tr [ngClass]="'expenseItem' + expense.id">
+          <th scope="row" class="expenseId">
+            {{ expense.id }}
+          </th>
+          <td class="expenseName">{{ expense.name }}</td>
+          <td class="expensePurpose">{{ expense.purpose }}</td>
+          <td class="text-right expenseCost">
+            {{ expense.cost | currency : "PHP" }}
+          </td>
+          <td class="text-center expenseStatus">
             <span
               class="badge rounded-pill"
               [class.text-bg-warning]="expense.status == 'PEND'"
@@ -53,10 +57,13 @@
               >{{ expense.status }}
             </span>
           </td>
-          <td>{{ expense.dateSettled | date }}</td>
+          <td class="expenseDateSettled">{{ expense.dateSettled | date }}</td>
           <td>
             @if(expense.id){ @if(expense.status !== 'PAID'){
-            <button class="btn btn-sm btn-success me-2" (click)="markAsPaid(expense.id)">
+            <button
+              class="btn btn-sm btn-success me-2"
+              (click)="markAsPaid(expense.id)"
+            >
               Pay
             </button>
             }
@@ -72,5 +79,41 @@
         }}
       </tbody>
     </table>
+
+    <!-- Bootstrap Pagination -->
+    <nav aria-label="Table pagination">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="page === 1">
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(page - 1); $event.preventDefault()"
+            >Previous</a
+          >
+        </li>
+
+        <li
+          class="page-item"
+          *ngFor="let p of [].constructor(totalPages); let i = index"
+          [class.active]="page === i + 1"
+        >
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(i + 1); $event.preventDefault()"
+            >{{ i + 1 }}</a
+          >
+        </li>
+
+        <li class="page-item" [class.disabled]="page === totalPages">
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(page + 1); $event.preventDefault()"
+            >Next</a
+          >
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
