@@ -50,12 +50,12 @@
                 'text-bg-warning': banksAndWallet.type === 'DIG_BNK_SVNGS'
               }"
               >{{ banksAndWallet.type === "OL_WLT" ? "ONLINE WALLET" : null
+              }}{{ banksAndWallet.type === "BNK" ? "BANK" : null
+              }}{{ banksAndWallet.type === "DIG_BNK" ? "DIGITAL BANK" : null
               }}{{
-                banksAndWallet.type === "BNK" ? "BANK" : null
-              }}{{
-                banksAndWallet.type === "DIG_BNK" ? "DIGITAL BANK" : null
-              }}{{
-                banksAndWallet.type === "DIG_BNK_SVNGS" ? "DIGITAL BANK SAVINGS" : null
+                banksAndWallet.type === "DIG_BNK_SVNGS"
+                  ? "DIGITAL BANK SAVINGS"
+                  : null
               }}</span
             >
           </td>
@@ -71,8 +71,15 @@
             >
               Deposit
             </button>
+             <button
+              class="btn btn-sm btn-info me-1"
+              (click)="transfer(banksAndWallet.id)"
+            >
+              Transfer
+            </button>
             <button class="btn btn-sm btn-danger">Delete</button>
           </td>
+
         </tr>
         }}
       </tbody>

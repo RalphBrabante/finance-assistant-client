@@ -7,6 +7,7 @@ import {
   ExpensesPayload,
 } from '../../features/pages/expenses/components/expenses-table/expenses';
 import { ApiResponse } from './api-response';
+import { ExpensesFindAndCount } from './models/expenses-find-and-count';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,8 @@ import { ApiResponse } from './api-response';
 export class ExpensesService {
   constructor(private http: HttpClient) {}
 
-  getAllExpenses(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(baseUrl + '/expenses');
+  getAllExpenses(currentPage:number, pageSize:number): Observable<ExpensesFindAndCount> {
+    return this.http.get<ExpensesFindAndCount>(baseUrl + '/expenses?limit=' + pageSize + "&page=" + currentPage);
   }
 
   getAllExpensesForYear(year: string): Observable<ApiResponse> {

@@ -5,6 +5,7 @@ import { BankAndWalletService } from '../../../../../common/services/bank-and-wa
 import { takeUntil } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DepositModalComponent } from '../deposit-modal/deposit-modal.component';
+import { TransferModalComponent } from '../transfer-modal/transfer-modal.component';
 
 @Component({
   selector: 'app-banks-and-wallets-table',
@@ -43,6 +44,24 @@ export class BanksAndWalletsTableComponent
 
   deposit(id: string) {
     const modalRef = this.modalService.open(DepositModalComponent);
+    modalRef.componentInstance.name = 'Test';
+    modalRef.componentInstance.id = id;
+
+    modalRef.result.then(
+      (result) => {
+        if (result === true) {
+          this.fetchData();
+        }
+      },
+      (reason) => {
+        // Modal dismissed, no deletion
+        console.log(reason);
+      }
+    );
+  }
+
+  transfer(id: string) {
+    const modalRef = this.modalService.open(TransferModalComponent);
     modalRef.componentInstance.name = 'Test';
     modalRef.componentInstance.id = id;
 

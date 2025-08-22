@@ -29,54 +29,28 @@ export class TransactionsTableComponent
     this.fetchData();
   }
 
-  // markAsPaid(id: number) {
-  //   const modalRef = this.modalService.open();
-  //   modalRef.componentInstance.name = 'Test';
-  //   modalRef.componentInstance.id = id;
-
-  //   modalRef.result.then(
-  //     (result) => {
-  //       if (result === true) {
-  //         this.fetchData();
-  //       }
-  //     },
-  //     (reason) => {
-  //       // Modal dismissed, no deletion
-  //       console.log(reason);
-  //     }
-  //   );
-  // }
-
-  // confirmDelete(id: number) {
-  //   const modalRef = this.modalService.open(ConfirmModalComponent);
-  //   modalRef.componentInstance.title = 'Delete Confirmation';
-  //   modalRef.componentInstance.message =
-  //     'Do you really want to delete this expense?';
-
-  //   modalRef.result.then(
-  //     (result) => {
-  //       console.log('Modal closed with:', result);
-  //       if (result === true) {
-  //         this.expenseSvc
-  //           .deleteExpense(id)
-  //           .pipe(takeUntil(this.unsubscribe))
-  //           .subscribe({
-  //             next: (resp) => {
-  //               this.fetchData();
-  //             },
-  //             error: (err) => {
-  //               console.error('Delete failed', err);
-  //               // Handle error UI here
-  //             },
-  //           });
-  //       }
-  //     },
-  //     (reason) => {
-  //       // Modal dismissed, no deletion
-  //       console.log(reason);
-  //     }
-  //   );
-  // }
+  printTransaction() {
+    const content = document.getElementById('transactions-table')?.innerHTML;
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow?.document.write(`
+    <html>
+      <head>
+        <title>Transaction</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 20px; }
+          h2 { margin-bottom: 10px; }
+          table { border-collapse: collapse; width: 100%; }
+          table, th, td { border: 1px solid black; padding: 8px; }
+        </style>
+      </head>
+      <body>
+        ${content}
+      </body>
+    </html>
+  `);
+    printWindow?.document.close();
+    printWindow?.print();
+  }
 
   fetchData() {
     this.transSvc

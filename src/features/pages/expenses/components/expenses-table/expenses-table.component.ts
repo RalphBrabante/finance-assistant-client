@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { BaseComponent } from '../../../../../common/directives/base-component';
 import { ExpensesService } from '../../../../../common/services/expenses.service';
 import { takeUntil, tap } from 'rxjs';
@@ -16,18 +16,28 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
   expenses = signal<Expenses[]>([]);
   isLoading = signal<boolean>(false);
   showModal: boolean = false;
-  page:number= 1;
-  pageSize = 5;
+  page = signal<number>(1);
+  pageSize = signal<number>(10);
+  sumTotalRecords = signal<number>(0);
 
   constructor(
     private expenseSvc: ExpensesService,
     private modalService: NgbModal
   ) {
     super();
+
+    effect(() => {
+      // 👀 simply read the signal so Angular tracks it
+      this.page();
+      this.pageSize();
+      this.fetchData();
+    });
   }
 
   ngOnInit(): void {
     this.fetchData();
+
+    // This runs whenever `count` changes
   }
 
   markAsPaid(id: number) {
@@ -46,6 +56,11 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
         console.log(reason);
       }
     );
+  }
+
+  changePageSize(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.pageSize.set(Number(value));
   }
 
   confirmDelete(id: number) {
@@ -80,7 +95,7 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
 
   fetchData() {
     this.expenseSvc
-      .getAllExpenses()
+      .getAllExpenses(this.page(), this.pageSize())
       .pipe(
         tap(() => {
           this.isLoading.set(true);
@@ -89,8 +104,9 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
       )
       .subscribe({
         next: (resp) => {
-          this.expenses.set(resp.data);
+          this.expenses.set(resp.data.rows);
           this.isLoading.set(false);
+          this.sumTotalRecords.set(resp.data.count);
         },
         error: (err) => {
           this.isLoading.set(false);
@@ -99,17 +115,17 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
   }
 
   get paginatedItems() {
-    const start = (this.page - 1) * this.pageSize;
-    return this.expenses().slice(start, start + this.pageSize);
+    const start = (this.page() - 1) * this.pageSize();
+    return this.expenses().slice(start, start + this.pageSize());
   }
 
   get totalPages() {
-    return Math.ceil(this.expenses().length / this.pageSize);
+    return Math.ceil(this.sumTotalRecords() / this.pageSize());
   }
 
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.page = page;
+      this.page.set(page);
     }
   }
 }

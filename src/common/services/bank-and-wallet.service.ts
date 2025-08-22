@@ -22,8 +22,28 @@ export class BankAndWalletService {
    */
 
   deposit(id: string, amount: string): Observable<ApiResponse> {
-    return this.http.patch<ApiResponse>(baseUrl + `/bankAndWallets/${id}/deposit`, {
-      amount,
-    });
+    return this.http.patch<ApiResponse>(
+      baseUrl + `/bankAndWallets/${id}/deposit`,
+      {
+        amount,
+      }
+    );
+  }
+
+  /**
+   *
+   * @param originId - Origin Bank ID
+   * @param destinationId - Destination Bank ID
+   * @param amount  - Amount to be transferred
+   * @returns
+   */
+
+  transfer(originId: string, destinationId: string, amount: string) {
+    return this.http.patch<ApiResponse>(
+      baseUrl + `/bankAndWallets/${originId}/transfer/${destinationId}`,
+      {
+        amount,
+      }
+    );
   }
 }
