@@ -5,9 +5,10 @@ import { TransactionsRoutingModule } from './transactions-routing.module';
 import { TransactionsComponent } from './transactions.component';
 import { DashboardHeaderModule } from '../../../common/components/dashboard-header/dashboard-header.module';
 import { TransactionsTableComponent } from './components/transactions-table/transactions-table.component';
+import { RouterLink } from '@angular/router';
 
 @NgModule({
   declarations: [TransactionsComponent, TransactionsTableComponent],
-  imports: [CommonModule, TransactionsRoutingModule, DashboardHeaderModule],
+  imports: [CommonModule, TransactionsRoutingModule, DashboardHeaderModule, RouterLink],
 })
 export class TransactionsModule {}

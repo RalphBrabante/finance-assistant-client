@@ -16,6 +16,7 @@
           <th scope="col">Ending Balance</th>
           <th scope="col">Bank or Wallet Name</th>
           <th scope="col">Account #</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -67,6 +68,14 @@
           <td>{{ transaction.endingBalance | currency : "PHP" }}</td>
           <td class="text-right">{{ transaction.originBankOrWallet.name }}</td>
           <td>{{ transaction.originBankOrWallet.accountNo }}</td>
+          <td>
+            <button
+              class="btn btn-primary"
+              [routerLink]="'./' + transaction.id"
+            >
+              Open
+            </button>
+          </td>
         </tr>
         }}
       </tbody>

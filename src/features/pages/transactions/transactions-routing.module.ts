@@ -7,6 +7,13 @@ const routes: Routes = [
     path: '',
     component: TransactionsComponent,
   },
+  {
+    path: ':id',
+    loadChildren: () =>
+      import('./sub-pages/transaction-single-view/transaction-single-view.module').then(
+        (m) => m.TransactionSingleViewModule
+      ),
+  },
 ];
 
 @NgModule({
