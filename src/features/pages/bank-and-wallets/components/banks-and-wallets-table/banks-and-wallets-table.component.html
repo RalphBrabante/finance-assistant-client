@@ -71,17 +71,23 @@
             >
               Deposit
             </button>
-             <button
+            <button
               class="btn btn-sm btn-info me-1"
               (click)="transfer(banksAndWallet.id)"
             >
               Transfer
             </button>
-            <button class="btn btn-sm btn-danger">Delete</button>
+            <!-- <button class="btn btn-sm btn-danger">Delete</button> -->
           </td>
-
         </tr>
         }}
+        <tr>
+          <td colspan="4"></td>
+          <td style="font-weight: bold; text-align: right">
+            Grand Total: {{ totalBalance | currency : "PHP" }}
+          </td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   </div>

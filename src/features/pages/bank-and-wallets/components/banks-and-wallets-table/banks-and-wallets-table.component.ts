@@ -31,6 +31,15 @@ export class BanksAndWalletsTableComponent
     this.fetchData();
   }
 
+  get totalBalance() {
+    let total = 0;
+    this.banksAndWallets().forEach((bW) => {
+      total += parseFloat(bW.balance);
+    });
+
+    return total;
+  }
+
   fetchData() {
     this.bnwSvc
       .getAllBankAndWallets()

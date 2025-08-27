@@ -61,6 +61,8 @@ export class ExpensesTableComponent extends BaseComponent implements OnInit {
   changePageSize(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.pageSize.set(Number(value));
+
+    this.fetchData()
   }
 
   confirmDelete(id: number) {
